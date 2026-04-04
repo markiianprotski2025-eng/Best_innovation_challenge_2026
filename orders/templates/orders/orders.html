@@ -1,65 +1,187 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'main/css/static.css' %}">
-
-    <title>progect</title>
+    <link rel="stylesheet" href="{% static 'main/css/order.css' %}">
+    <link rel="stylesheet" href="{% static 'main/font/stylesheet.css' %}">
+    <title>Список замовлень</title>
 </head>
 
 <body>
-    <div class="orders">
-        <h1>замовлення</h1>
-    </div>
-    <form method="post">
-        {% csrf_token %}
-
-        <label for="promo">Товар:</label>
-        <input type="text" name="promo">
-
-        <button class="action_order">Замовити</button>
-    </form>
-    {% if error %}
-    <p style="color: red;">{{error}}</p>
-    {% endif %}
-    {% if succes %}
-    <p style="color: rgb(3, 255, 95);
-            font-weight: 400;">Є в такій кількості {{succes}} кг <br> за адресою{{ adress_p }}</p>
-    {% endif %}
-    {% for el in find_type %}
-    <h1> тип товару : {{el.type_product }} </h1>
-    {% endfor %}
-    <a href="{%url 'index' %}">На гооловну</a>
-
-    <!-- __________________________________________________________________________ -->
-    {% for sklad in find_type %}
-    <ul class="nav">
-        <li class="nav__item">
-            <a class="nav__link" href="#">
-                {{ sklad.type_product }}
-            </a>
-
-            <ul class="nav__dropdown dropdown">
-                {% for product in sklad.product_set.all %}
-                <li class="dropdown__item">
-                    <a class="dropdown__link" href="#">
-                        {{ product.name }}
-                    </a>
+    <header>
+        <div class="desktop-header">
+            <ul>
+                <li>
+                    <div class="design-link"><a class="design" href="{%url 'checkout' %}"></a></div>
                 </li>
-                {% empty %}
-                <li class="dropdown__item">
-                    <a class="dropdown__link" href="#">
-                        Немає товарів
-                    </a>
+                <li>
+                    <div class="home-link"><a class="home" href="{% url 'index' %}"></a></div>
                 </li>
-                {% endfor %}
+                <li>
+                    <div class="orders-selected"><a class="orders" href=""></a></div>
+                </li>
             </ul>
-        </li>
-    </ul>
-    {% endfor %}
+            <div class="profile-link"><a class="profile" href=""></a></div></a>
+        </div>
+        <div class="mobile-header">
+            <button id="open-nav-button"></button>
+            <a class="profile" href=""></a>
+            <nav class="mobile-nav">
+                <button id="close-button"></button>
+                <ul>
+                    <li><a href="">Профіль</a></li>
+                    <li><a href="">Про нас</a></li>
+                    <li><a href="">Оформлення</a></li>
+                    <li><a href="">Список замовлень</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-header">
+            <h1> Ваші замовлення</h1>
+            <a href="{%url 'checkout' %}"></a>
+        </div>
+        {% for el in user_order %}
+        <article class="orders-list">
+            <section class="order">
+                <p class="order-id">{{el.name}}</p>
+                <div class="order-status yellow"></div>
+                <div class="order-content">
+                    <p>{{el.adress_order}} - {{el.adress_order}}</p>
+                    <p>В дорозі</p>
+                </div>
+                <div class="order-details">
+                    <div class="order-dates">
+                        <div>
+                            <p>23 березня 14:40</p>
+                            <p><span>Відправлення</span></p>
+                        </div>
+                        <div>
+                            <p>24 березня 18:20</p>
+                            <p><span>Прибуття</span></p>
+                        </div>
+                    </div>
+                    <div class="order-details-content">
+                        <div class="order-summary">
+                            <div class="order-summary-item">
+                                <div>
+                                    <p></p>
+                                    <div class="open-order-icon"></div>
+                                </div>
+                                <p class="order-summary-text">ПІБ (ФОП) одержувача</p>
+                            </div>
+
+                            <div class="order-summary-item">
+                                <div>
+                                    <p>Відправник</p>
+                                    <div class="open-order-icon"></div>
+                                </div>
+                                <p class="order-summary-text">ПІБ (ФОП) відправника</p>
+                            </div>
+
+                            <div class="order-summary-item">
+                                <div>
+                                    <p></p>
+                                    <div class="open-order-icon"></div>
+                                </div>
+                                <p class="order-summary-text"></p>
+                            </div>
+
+                            <div class="order-summary-item">
+                                <div>
+                                    <p>Сплата</p>
+                                    <div class="open-order-icon"></div>
+                                </div>
+                                <p class="order-summary-text">Сплата</p>
+                            </div>
+
+                            <div class="order-summary-item">
+                                <div>
+                                    <p>Пріоритет</p>
+                                    <div class="open-order-icon"></div>
+                                </div>
+                                <p class="order-summary-text">Пріоритет</p>
+                            </div>
+
+                            <a class="order-summary-navigation" href="">
+                                <p>Відстеження маршруту</p>
+                                <div class="open-order-icon-nav"></div>
+                            </a>
+                        </div>
+
+
+                        <div class="item-information">
+                            <p class="item-info-label">Інформація про товар</p>
+                            <p>Назва товару</p>
+                            <p>Вага товару</p>
+                            <p>Опис товару</p>
+                            <p>Ціна товару</p>
+                        </div>
+                    </div>
+                    <button class="change-order-button">Змінити</button>
+                </div>
+                <button class="open-details-button"></button>
+            </section>
+
+            <section class="order">
+                <p class="order-id">ID: 1049</p>
+                <div class="order-status red"></div>
+                <div class="order-content">
+                    <p>Київ - Харків</p>
+                    <p>Відмова</p>
+                </div>
+                <div class="order-details">
+                    <div class="cancel-alert">
+                        <h3>Ваша заявка була відмовлена</h3>
+                        <p>Зверніться в підтримку</p>
+                    </div>
+                    <a href="" class="support-button">Підтримка</a>
+                </div>
+                <button class="open-details-button"></button>
+            </section>
+        </article>
+        {% endfor %}
+    </main>
+
+    <script>
+        const mobileNav = document.getElementsByClassName("mobile-nav")[0]
+
+        const openNavButton = document.getElementById("open-nav-button")
+        openNavButton.addEventListener("click", function () {
+            mobileNav.style.display = "block"
+        })
+
+        const closeNavButton = document.getElementById("close-button")
+        closeNavButton.addEventListener("click", function () {
+            mobileNav.style.display = "none"
+        })
+
+        const openDetailsButton = document.getElementsByClassName("open-details-button")
+        const orderDetails = document.getElementsByClassName("order-details")
+
+        for (let i = 0; i < openDetailsButton.length; i++) {
+            openDetailsButton[i].addEventListener("click", function () {
+                openDetailsButton[i].classList.toggle("open")
+                orderDetails[i].classList.toggle("open")
+            })
+        }
+
+        const orderSummaryItem = document.getElementsByClassName("order-summary-item")
+        const openOrderIcon = document.getElementsByClassName("open-order-icon")
+        const orderSummaryText = document.getElementsByClassName("order-summary-text")
+
+        for (let i = 0; i < orderSummaryItem.length; i++) {
+            orderSummaryItem[i].addEventListener("click", function () {
+                openOrderIcon[i].classList.toggle("open")
+                orderSummaryText[i].classList.toggle("open")
+            })
+        }
+    </script>
 </body>
 
 </html>

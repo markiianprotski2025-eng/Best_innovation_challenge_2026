@@ -1,23 +1,79 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'main/css/static.css' %}">
-
-    <title>progect</title>
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'main/font/stylesheet.css' %}">
+    <title>Про нас</title>
 </head>
 
 <body>
-    <div class="la">
-        
-        <h1>Головна сторінка</h1>
+    <header>
+        <div class="desktop-header">
+            <ul>
+                <li>
+                    <div class="design-link"><a class="design" href="{%url 'checkout' %}"></a></div>
+                </li>
+                <li>
+                    <div class="home-selected"><a class="home" href=""></a></div>
+                </li>
+                <li>
+                    <div class="orders-link"><a class="orders" href="{%url 'orders' %}"></a></div>
+                </li>
+            </ul>
+            <div class="profile-link"><a class="profile" href=""></a></div></a>
+        </div>
+        <div class="mobile-header">
+            <button id="open-nav-button"></button>
+            <a class="profile" href=""></a>
+            <nav class="mobile-nav">
+                <button id="close-button"></button>
+                <ul>
+                    <li><a href="">Профіль</a></li>
+                    <li><a href="">Про нас</a></li>
+                    <li><a href="">Оформлення</a></li>
+                    <li><a href="">Список замовлень</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-     </div>
-    <a href="{%url 'orders' %}"> замовлення</a>
+    <main>
+        <h1>Про нас</h1>
+        <article>
+            <p>У сучасному світі логістика — це не просто доставка, а складна система, яка потребує швидких рішень та
+                гнучкості. Ми допомагаємо транспортно-логістичним компаніям вирішити ключову проблему — неефективний
+                розподіл ресурсів та неможливість швидко реагувати на зміну попиту. Завдяки нашому підходу ви отримуєте:
+            </p>
+            <div class="features">
+                <img src="{% static 'main/img/truck-with-deal.png'%}" alt="Вантажівка з товарами">
+                <ul>
+                    <li>точний розподіл товарів і матеріалів</li>
+                    <li>швидку адаптацію до змін у реальному часі</li>
+                    <li>зниження витрат на паливо та логістику</li>
+                    <li>підвищення якості обслуговування клієнтів</li>
+                </ul>
+            </div>
+            <p>Ми перетворюємо хаотичну логістику на чітко налагоджену систему, яка працює на результат</p>
+        </article>
+    </main>
 
+    <script>
+        const mobileNav = document.getElementsByClassName("mobile-nav")[0]
+
+        const openNavButton = document.getElementById("open-nav-button")
+        openNavButton.addEventListener("click", function () {
+            mobileNav.style.display = "block"
+        })
+
+        const closeNavButton = document.getElementById("close-button")
+        closeNavButton.addEventListener("click", function () {
+            mobileNav.style.display = "none"
+        })
+    </script>
 </body>
 
 </html>

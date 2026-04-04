@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main/css/checkout.css' %}">
+    <link rel="stylesheet" href="{% static 'main/font/stylesheet.css' %}">
+    <title>Оформлення замовлення</title>
+</head>
+
+<body>
+    <header>
+        <div class="desktop-header">
+            <ul>
+                <li>
+                    <div class="design-selected"><a class="design" href=""></a></div>
+                </li>
+                <li>
+                    <div class="home-link"><a class="home" href="{% url 'index' %}"></a></div>
+                </li>
+                <li>
+                    <div class="orders-link"><a class="orders" href="{% url 'orders' %}"></a></div>
+                </li>
+            </ul>
+            <div class="profile-link"><a class="profile" href=""></a></div>
+        </div>
+        <div class="mobile-header">
+            <button id="open-nav-button"></button>
+            <a class="profile" href=""></a>
+            <nav class="mobile-nav">
+                <button id="close-button"></button>
+                <ul>
+                    <li><a href="">Профіль</a></li>
+                    <li><a href="">Про нас</a></li>
+                    <li><a href="">Оформлення</a></li>
+                    <li><a href="">Список замовлень</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Оформлення замовлення</h1>
+        <form method="post">
+            {% csrf_token %}
+
+            <p>{{ form.name }}</p>
+
+            <p>{{ form.adress_order }}</p>
+
+            <!-- Спочатку обираємо тип складу -->
+            <p>
+                <select id="sklad-select">
+                    <option disabled selected>Тип товару</option>
+                    {% for sklad in sklads %}
+                    <option value="{{ sklad.id }}">{{ sklad.type_product }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+
+            <!-- Потім підвантажуються товари з цього складу -->
+            <p>
+                <select id="product-select" name="product_id" disabled>
+                    <option disabled selected>Спочатку оберіть тип</option>
+                </select>
+            </p>
+
+            <p>{{ form.priority }}</p>
+            <p style="color: black;">Є всього три види приорітетності : <br> 1 - нормальний(замовлення буде оброблене
+                протягом 2-4 днів) <br>
+                2 - підвищена(Замовлення буде оброблено протягом 1-2 днів) <br>
+                3 - критична (Замовлення буде оброблено протягом 3-5 годин)</p>
+            <p>{{ form.count_order }}</p>
+
+            <p>
+                <button type="reset">
+                    <div class="reset-button-icon"></div>
+                </button>
+                <button type="submit">Оформити</button>
+            </p>
+        </form>
+    </main>
+
+    <script>
+        const mobileNav = document.getElementsByClassName("mobile-nav")[0]
+        document.getElementById("open-nav-button").addEventListener("click", function () {
+            mobileNav.style.display = "block"
+        })
+        document.getElementById("close-button").addEventListener("click", function () {
+            mobileNav.style.display = "none"
+        })
+
+        const skladSelect = document.getElementById("sklad-select")
+        const productSelect = document.getElementById("product-select")
+
+        skladSelect.addEventListener("change", function () {
+            const skladId = this.value
+
+            fetch(`/orders/get-products/?sklad_id=${skladId}`)
+                .then(response => response.json())
+                .then(products => {
+                    // очищаємо старі опції
+                    productSelect.innerHTML = '<option disabled selected>Оберіть товар</option>'
+
+                    if (products.length === 0) {
+                        productSelect.innerHTML = '<option disabled selected>Немає товарів</option>'
+                        productSelect.disabled = true
+                        return
+                    }
+
+                    products.forEach(product => {
+                        const option = document.createElement("option")
+                        option.value = product.id
+                        option.textContent = product.name
+                        productSelect.appendChild(option)
+                    })
+
+                    productSelect.disabled = false
+                })
+        })
+    </script>
+</body>
+
+</html>
