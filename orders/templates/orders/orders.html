@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'main/css/static.css' %}">
+
+    <title>progect</title>
+</head>
+
+<body>
+    <div class="orders">
+        <h1>замовлення</h1>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="promo">Товар:</label>
+        <input type="text" name="promo">
+
+        <button class="action_order">Замовити</button>
+    </form>
+    {% if error %}
+    <p style="color: red;">{{error}}</p>
+    {% endif %}
+    {% if succes %}
+    <p style="color: rgb(3, 255, 95);
+            font-weight: 400;">Є в такій кількості {{succes}} кг <br> за адресою{{ adress_p }}</p>
+    {% endif %}
+    {% for el in find_type %}
+    <h1> тип товару : {{el.type_product }} </h1>
+    {% endfor %}
+    <a href="{%url 'index' %}">На гооловну</a>
+
+    <!-- __________________________________________________________________________ -->
+    {% for sklad in find_type %}
+    <ul class="nav">
+        <li class="nav__item">
+            <a class="nav__link" href="#">
+                {{ sklad.type_product }}
+            </a>
+
+            <ul class="nav__dropdown dropdown">
+                {% for product in sklad.product_set.all %}
+                <li class="dropdown__item">
+                    <a class="dropdown__link" href="#">
+                        {{ product.name }}
+                    </a>
+                </li>
+                {% empty %}
+                <li class="dropdown__item">
+                    <a class="dropdown__link" href="#">
+                        Немає товарів
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+    {% endfor %}
+</body>
+
+</html>
