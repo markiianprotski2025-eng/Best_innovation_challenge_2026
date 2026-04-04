@@ -28,6 +28,16 @@ class Orders(models.Model):
     adress_order = models.CharField(max_length=200)
     priority = models.PositiveIntegerField()
     count_order = models.PositiveIntegerField()
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)  
-    user =  models.ForeignKey(User,on_delete=models.CASCADE)      
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    user =  models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def total_price(self):
+        base = self.product.price * self.count_order
+        if self.priority == 2:
+            return int(base * 1.10)
+        elif self.priority == 3:
+            return int(base * 1.30)
+        return base     
 

@@ -6,13 +6,6 @@ from django.http import JsonResponse
 
 def orders(request):
     user_order = Orders.objects.filter(user = request.user)
-    succes  = None
-    eror = None
-    adress_p = None
-    adress_order = None
-    id = None
-
-    
 
 
     return render(request,'orders/orders.html',{'user_order':user_order})
@@ -45,12 +38,11 @@ def create_order(request):
             order.user = request.user
             order.product = Product.objects.get(id=product_id)
             order.save()
-        # якщо product_id пустий — форма просто перерендериться з помилкою
 
     return render(request, 'orders/checkout.html', {'form': form, 'sklads': sklads})
 
 
 def get_products(request):
     sklad_id = request.GET.get('sklad_id')
-    products = Product.objects.filter(sklad_id=sklad_id).values('id', 'name')
+    products = Product.objects.filter(sklad_id=sklad_id).values('id', 'name', 'price', 'count', 'sklad__adress')
     return JsonResponse(list(products), safe=False)

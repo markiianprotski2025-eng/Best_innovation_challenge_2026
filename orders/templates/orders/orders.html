@@ -15,7 +15,7 @@
         <div class="desktop-header">
             <ul>
                 <li>
-                    <div class="design-link"><a class="design" href="{%url 'checkout' %}"></a></div>
+                    <div class="design-link"><a class="design" href="{% url 'checkout' %}"></a></div>
                 </li>
                 <li>
                     <div class="home-link"><a class="home" href="{% url 'index' %}"></a></div>
@@ -24,7 +24,7 @@
                     <div class="orders-selected"><a class="orders" href=""></a></div>
                 </li>
             </ul>
-            <div class="profile-link"><a class="profile" href=""></a></div></a>
+            <div class="profile-link"><a class="profile" href=""></a></div>
         </div>
         <div class="mobile-header">
             <button id="open-nav-button"></button>
@@ -43,53 +43,47 @@
 
     <main>
         <div class="main-header">
-            <h1> Ваші замовлення</h1>
-            <a href="{%url 'checkout' %}"></a>
+            <h1>Ваші замовлення</h1>
+            <a href="{% url 'checkout' %}"></a>
         </div>
+
         {% for el in user_order %}
         <article class="orders-list">
             <section class="order">
-                <p class="order-id">{{el.name}}</p>
+                <p class="order-id">{{ el.name }}</p>
                 <div class="order-status yellow"></div>
                 <div class="order-content">
-                    <p>{{el.adress_order}} - {{el.adress_order}}</p>
+                    <p>{{ el.product.sklad.adress }} → {{ el.adress_order }}</p>
                     <p>В дорозі</p>
                 </div>
                 <div class="order-details">
                     <div class="order-dates">
                         <div>
-                            <p>23 березня 14:40</p>
+                            <p>{{ el.date }} {{ el.time|time:"H:i" }}</p>
                             <p><span>Відправлення</span></p>
                         </div>
                         <div>
-                            <p>24 березня 18:20</p>
+                            <p>—</p>
                             <p><span>Прибуття</span></p>
                         </div>
                     </div>
                     <div class="order-details-content">
                         <div class="order-summary">
+
                             <div class="order-summary-item">
                                 <div>
-                                    <p></p>
+                                    <p>Одержувач</p>
                                     <div class="open-order-icon"></div>
                                 </div>
-                                <p class="order-summary-text">ПІБ (ФОП) одержувача</p>
+                                <p class="order-summary-text">{{ el.name }}</p>
                             </div>
 
                             <div class="order-summary-item">
                                 <div>
-                                    <p>Відправник</p>
+                                    <p>Адреса доставки</p>
                                     <div class="open-order-icon"></div>
                                 </div>
-                                <p class="order-summary-text">ПІБ (ФОП) відправника</p>
-                            </div>
-
-                            <div class="order-summary-item">
-                                <div>
-                                    <p></p>
-                                    <div class="open-order-icon"></div>
-                                </div>
-                                <p class="order-summary-text"></p>
+                                <p class="order-summary-text">{{ el.adress_order }}</p>
                             </div>
 
                             <div class="order-summary-item">
@@ -97,7 +91,13 @@
                                     <p>Сплата</p>
                                     <div class="open-order-icon"></div>
                                 </div>
-                                <p class="order-summary-text">Сплата</p>
+                                <p class="order-summary-text">
+                                    {{ el.count_order }} шт × {{ el.product.price }} грн
+                                    {% if el.priority == 2 %}+ 10% (пріоритет)
+                                    {% elif el.priority == 3 %}+ 30% (пріоритет)
+                                    {% endif %}
+                                    = {{ el.total_price }} грн
+                                </p>
                             </div>
 
                             <div class="order-summary-item">
@@ -105,7 +105,14 @@
                                     <p>Пріоритет</p>
                                     <div class="open-order-icon"></div>
                                 </div>
-                                <p class="order-summary-text">Пріоритет</p>
+                                <p class="order-summary-text">
+                                    {% if el.priority == 1 %}
+
+                                    {% elif el.priority == 2 %}Підвищений (1-2 дні)
+                                    {% elif el.priority == 3 %}Критичний (3-5 годин)Нормальний (2-4 дні) {{
+                                    el.total_price }} × 10%
+                                    {% else %}{{ el.priority }}{% endif %}
+                                </p>
                             </div>
 
                             <a class="order-summary-navigation" href="">
@@ -114,50 +121,31 @@
                             </a>
                         </div>
 
-
                         <div class="item-information">
                             <p class="item-info-label">Інформація про товар</p>
-                            <p>Назва товару</p>
-                            <p>Вага товару</p>
-                            <p>Опис товару</p>
-                            <p>Ціна товару</p>
+                            <p>{{ el.product.name }}</p>
+                            <p>Кількість: {{ el.count_order }} шт</p>
+                            <p>Тип: {{ el.product.sklad.type_product }}</p>
+                            <p>Ціна: {{ el.total_price }} грн + Доставка</p>
                         </div>
                     </div>
                     <button class="change-order-button">Змінити</button>
                 </div>
                 <button class="open-details-button"></button>
             </section>
-
-            <section class="order">
-                <p class="order-id">ID: 1049</p>
-                <div class="order-status red"></div>
-                <div class="order-content">
-                    <p>Київ - Харків</p>
-                    <p>Відмова</p>
-                </div>
-                <div class="order-details">
-                    <div class="cancel-alert">
-                        <h3>Ваша заявка була відмовлена</h3>
-                        <p>Зверніться в підтримку</p>
-                    </div>
-                    <a href="" class="support-button">Підтримка</a>
-                </div>
-                <button class="open-details-button"></button>
-            </section>
         </article>
+        {% empty %}
+        <p style="text-align: center; margin-top: 2rem;">У вас ще немає замовлень</p>
         {% endfor %}
     </main>
 
     <script>
         const mobileNav = document.getElementsByClassName("mobile-nav")[0]
 
-        const openNavButton = document.getElementById("open-nav-button")
-        openNavButton.addEventListener("click", function () {
+        document.getElementById("open-nav-button").addEventListener("click", function () {
             mobileNav.style.display = "block"
         })
-
-        const closeNavButton = document.getElementById("close-button")
-        closeNavButton.addEventListener("click", function () {
+        document.getElementById("close-button").addEventListener("click", function () {
             mobileNav.style.display = "none"
         })
 
