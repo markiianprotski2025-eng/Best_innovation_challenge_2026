@@ -5,19 +5,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'main/css/static.css' %}">
-
-    <title>progect</title>
+    <link rel="stylesheet" href="{% static 'main/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'main/font/stylesheet.css' %}">
+    <title>Головна сторінка</title>
 </head>
 
 <body>
-    <div class="la">
-        
-        <h1>Головна сторінка</h1>
+    <header>
+        <div class="desktop-header">
+            <ul>
+                <li>
+                    <div class="design-link"><a class="design" href="{% url 'checkout' %}"></a></div>
+                </li>
+                <li>
+                    <div class="home-selected"><a class="home" href=""></a></div>
+                </li>
+                <li>
+                    <div class="orders-link"><a class="orders" href="{% url 'orders' %}"></a></div>
+                </li>
+            </ul>
+            <div class="profile-link"><a class="profile" href=""></a></div>
+        </div>
+        <div class="mobile-header">
+            <button id="open-nav-button"></button>
+            <a class="profile" href=""></a>
+            <nav class="mobile-nav">
+                <button id="close-button"></button>
+                <ul>
+                    <li><a href="">Профіль</a></li>
+                    <li><a href="">Про нас</a></li>
+                    <li><a href="{% url 'checkout' %}">Оформлення</a></li>
+                    <li><a href="{% url 'orders' %}">Список замовлень</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-     </div>
-    <a href="{%url 'orders' %}"> замовлення</a>
+    <main>
+        <div class="main-header">
+            <h1>Ласкаво просимо!</h1>
+            <p>Швидка і зручна доставка товарів по всій Україні</p>
+        </div>
 
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon design-icon"></div>
+                <h3>Оформлення замовлення</h3>
+                <p>Легко оберіть товари та оформіть замовлення за кілька кліків</p>
+                <a href="{% url 'checkout' %}" class="feature-link">Перейти →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon orders-icon"></div>
+                <h3>Мої замовлення</h3>
+                <p>Стежте за статусом ваших замовлень у реальному часі</p>
+                <a href="{% url 'orders' %}" class="feature-link">Переглянути →</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon truck-icon"></div>
+                <h3>Швидка доставка</h3>
+                <p>Виберіть пріоритет доставки, який вам підходить</p>
+            </div>
+        </section>
+
+        <section class="hero-section">
+            <h2>Чому обирають нас?</h2>
+            <ul class="benefits">
+                <li>✓ Надійна доставка по всій країні</li>
+                <li>✓ Гнучкі варіанти пріоритету</li>
+                <li>✓ Прозорі ціни без прихованих комісій</li>
+                <li>✓ Професійна служба підтримки</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        const mobileNav = document.getElementsByClassName("mobile-nav")[0]
+
+        document.getElementById("open-nav-button").addEventListener("click", function () {
+            mobileNav.style.display = "block"
+        })
+        document.getElementById("close-button").addEventListener("click", function () {
+            mobileNav.style.display = "none"
+        })
+    </script>
 </body>
+
+</html>
 
 </html>

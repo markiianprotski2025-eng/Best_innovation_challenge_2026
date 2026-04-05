@@ -106,11 +106,9 @@
                                     <div class="open-order-icon"></div>
                                 </div>
                                 <p class="order-summary-text">
-                                    {% if el.priority == 1 %}
-
+                                    {% if el.priority == 1 %}Нормальний (2-4 дні)
                                     {% elif el.priority == 2 %}Підвищений (1-2 дні)
-                                    {% elif el.priority == 3 %}Критичний (3-5 годин)Нормальний (2-4 дні) {{
-                                    el.total_price }} × 10%
+                                    {% elif el.priority == 3 %}Критичний (3-5 годин)
                                     {% else %}{{ el.priority }}{% endif %}
                                 </p>
                             </div>

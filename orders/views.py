@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -7,24 +7,11 @@ from .forms import Orders_Form
 
 @login_required(login_url='login')
 def orders(request):
-    user_order = Orders.objects.filter(user=request.user)
+    user_order = Orders.objects.filter(user=request.user).select_related('product__sklad')
     return render(request, 'orders/orders.html', {'user_order': user_order})
 
-    '''if request.method == 'POST':
-        product = request.POST.get('promo')
-        find_product  = Product.objects.filter(name__iexact=product).first()
-        if find_product:
-            succes = find_product.count
-            adress_p = find_product.sklad.adress
-        else:
-            eror = 'немає такого товару'
-    return render(request,'orders/orders.html',{
-                                                'error':eror,
-                                                'succes':succes,
-                                                'adress_p':adress_p,
-                                                'find_type':find_type})'''
 
-
+@login_required(login_url='login')
 def create_order(request):
     form = Orders_Form()
     sklads = Sklad.objects.all()
@@ -34,15 +21,27 @@ def create_order(request):
         product_id = request.POST.get('product_id')
         
         if form.is_valid() and product_id:
-            order = form.save(commit=False)
-            order.user = request.user
-            order.product = Product.objects.get(id=product_id)
-            order.save()
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                product = None
+
+            if product:
+                order = form.save(commit=False)
+                order.user = request.user
+                order.product = product
+                order.save()
+                return redirect('orders')
 
     return render(request, 'orders/checkout.html', {'form': form, 'sklads': sklads})
 
 
+
+@login_required(login_url='login')
 def get_products(request):
     sklad_id = request.GET.get('sklad_id')
+    if not sklad_id:
+        return JsonResponse([], safe=False)
+
     products = Product.objects.filter(sklad_id=sklad_id).values('id', 'name', 'price', 'count', 'sklad__adress')
     return JsonResponse(list(products), safe=False)
