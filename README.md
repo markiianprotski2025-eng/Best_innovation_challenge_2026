@@ -1,1 +1,1 @@
-з сайтом можете ознайомитись на https://markiian.pythonanywhere.com/
+З сайтом можете ознайомитись на https://markiian.pythonanywhere.com/
