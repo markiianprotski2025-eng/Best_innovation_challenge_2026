@@ -15,6 +15,7 @@ class Sklad(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100)
     count = models.PositiveIntegerField(default=0)
+    price = models.PositiveBigIntegerField(default=0)
     sklad = models.ForeignKey(Sklad,on_delete=models.CASCADE)
     
     def __str__(self):
@@ -25,7 +26,18 @@ class Product(models.Model):
 class Orders(models.Model):
     name = models.CharField(max_length=200)
     adress_order = models.CharField(max_length=200)
-    priority = models.PositiveIntegerField(default=0)
-    proudct = models.ForeignKey(Product,on_delete=models.CASCADE)  
-    user =  models.ForeignKey(User,on_delete=models.CASCADE)      
+    priority = models.PositiveIntegerField()
+    count_order = models.PositiveIntegerField()
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    user =  models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def total_price(self):
+        base = self.product.price * self.count_order
+        if self.priority == 2:
+            return int(base * 1.10)
+        elif self.priority == 3:
+            return int(base * 1.30)
+        return base     
 
