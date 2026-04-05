@@ -71,23 +71,26 @@ header {
 }
 
 .profile-link {
-    padding: 1.25rem;
-    display: block;
     position: absolute;
     right: 1rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition-property: background;
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.profile-link:hover {
-    background-color: hsl(240, 54%, 65%);
+.logout-button {
+    padding: 0.5rem 1rem;
+    background-color: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
 }
 
-.profile-link:active {
-    background-color: hsl(240, 54%, 55%);
+.logout-button:hover {
+    background-color: #ff5252;
 }
 
 .desktop-header ul li a,

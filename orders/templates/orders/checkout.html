@@ -24,18 +24,22 @@
                     <div class="orders-link"><a class="orders" href="{% url 'orders' %}"></a></div>
                 </li>
             </ul>
-            <div class="profile-link"><a class="profile" href=""></a></div>
+            <div class="profile-link">
+                <a class="profile" href="{% url 'orders' %}"></a>
+                <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
+            </div>
         </div>
         <div class="mobile-header">
             <button id="open-nav-button"></button>
-            <a class="profile" href=""></a>
+            <a class="profile" href="{% url 'orders' %}"></a>
             <nav class="mobile-nav">
                 <button id="close-button"></button>
                 <ul>
-                    <li><a href="">Профіль</a></li>
+                    <li><a href="{% url 'orders' %}">Профіль</a></li>
+                    <li><a href="{% url 'logout' %}">Вийти</a></li>
                     <li><a href="">Про нас</a></li>
-                    <li><a href="">Оформлення</a></li>
-                    <li><a href="">Список замовлень</a></li>
+                    <li><a href="{% url 'checkout' %}">Оформлення</a></li>
+                    <li><a href="{% url 'orders' %}">Список замовлень</a></li>
                 </ul>
             </nav>
         </div>

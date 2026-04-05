@@ -48,10 +48,11 @@ def register_view(request):
         else:
             context = {'form': form, 'errors': form.errors}
             return render(request, 'registration/register.html', context)
-    else:
-        form = RegistrationForm()
-        context = {'form': form}
-        return render(request, 'registration/register.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')
 
 
 def logout_view(request):

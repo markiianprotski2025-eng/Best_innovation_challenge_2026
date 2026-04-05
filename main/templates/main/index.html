@@ -15,27 +15,56 @@
         <div class="desktop-header">
             <ul>
                 <li>
+                    {% if user.is_authenticated %}
                     <div class="design-link"><a class="design" href="{% url 'checkout' %}"></a></div>
+                    {% else %}
+                    <div class="design-link"><a class="design" href="{% url 'login' %}"></a></div>
+                    {% endif %}
                 </li>
                 <li>
                     <div class="home-selected"><a class="home" href=""></a></div>
                 </li>
                 <li>
+                    {% if user.is_authenticated %}
                     <div class="orders-link"><a class="orders" href="{% url 'orders' %}"></a></div>
+                    {% else %}
+                    <div class="orders-link"><a class="orders" href="{% url 'login' %}"></a></div>
+                    {% endif %}
                 </li>
             </ul>
-            <div class="profile-link"><a class="profile" href=""></a></div>
+            <div class="profile-link">
+                {% if user.is_authenticated %}
+                <a class="profile" href="{% url 'orders' %}"></a>
+                <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
+                {% else %}
+                <a class="profile" href="{% url 'login' %}"></a>
+                {% endif %}
+            </div>
         </div>
         <div class="mobile-header">
             <button id="open-nav-button"></button>
-            <a class="profile" href=""></a>
+            {% if user.is_authenticated %}
+            <a class="profile" href="{% url 'orders' %}"></a>
+            {% else %}
+            <a class="profile" href="{% url 'login' %}"></a>
+            {% endif %}
             <nav class="mobile-nav">
                 <button id="close-button"></button>
                 <ul>
-                    <li><a href="">Профіль</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'orders' %}">Профіль</a></li>
+                    <li><a href="{% url 'logout' %}">Вийти</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Увійти</a></li>
+                    {% endif %}
                     <li><a href="">Про нас</a></li>
+                    {% if user.is_authenticated %}
                     <li><a href="{% url 'checkout' %}">Оформлення</a></li>
                     <li><a href="{% url 'orders' %}">Список замовлень</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Оформлення</a></li>
+                    <li><a href="{% url 'login' %}">Список замовлень</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -45,6 +74,12 @@
         <div class="main-header">
             <h1>Ласкаво просимо!</h1>
             <p>Швидка і зручна доставка товарів по всій Україні</p>
+            {% if not user.is_authenticated %}
+            <div class="auth-message">
+                <p>Для оформлення замовлень та перегляду статусу потрібно увійти в систему</p>
+                <a href="{% url 'login' %}" class="login-button">Увійти</a>
+            </div>
+            {% endif %}
         </div>
 
         <section class="features">
@@ -52,14 +87,22 @@
                 <div class="feature-icon design-icon"></div>
                 <h3>Оформлення замовлення</h3>
                 <p>Легко оберіть товари та оформіть замовлення за кілька кліків</p>
+                {% if user.is_authenticated %}
                 <a href="{% url 'checkout' %}" class="feature-link">Перейти →</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="feature-link">Увійти →</a>
+                {% endif %}
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon orders-icon"></div>
                 <h3>Мої замовлення</h3>
                 <p>Стежте за статусом ваших замовлень у реальному часі</p>
+                {% if user.is_authenticated %}
                 <a href="{% url 'orders' %}" class="feature-link">Переглянути →</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="feature-link">Увійти →</a>
+                {% endif %}
             </div>
 
             <div class="feature-card">

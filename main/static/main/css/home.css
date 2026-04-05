@@ -65,23 +65,26 @@ header {
 }
 
 .profile-link {
-    padding: 1.25rem;
-    display: block;
     position: absolute;
     right: 1rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition-property: background;
-    transition-duration: 0.2s;
-    transition-timing-function: ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.profile-link:hover {
-    background-color: hsl(240, 54%, 65%);
+.logout-button {
+    padding: 0.5rem 1rem;
+    background-color: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
 }
 
-.profile-link:active {
-    background-color: hsl(240, 54%, 55%);
+.logout-button:hover {
+    background-color: #ff5252;
 }
 
 .desktop-header ul li a,
@@ -178,6 +181,39 @@ header {
 main {
     flex: 1;
     padding: 1rem 1.25rem;
+}
+
+.main-header {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.auth-message {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    border: 2px solid hsl(240, 100%, 84%);
+}
+
+.auth-message p {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.login-button {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background-color: hsl(240, 100%, 84%);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: hsl(240, 100%, 74%);
 }
 
 article {
