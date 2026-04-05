@@ -114,3 +114,6 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+
+# Login redirect
+LOGIN_URL = 'login'

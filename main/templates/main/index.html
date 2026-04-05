@@ -1,23 +1,146 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'main/css/static.css' %}">
 
-    <title>progect</title>
+    <title>Головна сторінка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+        .navbar-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .navbar-actions a, .navbar-actions form {
+            margin: 0;
+        }
+        .navbar-actions a, .navbar-actions button {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .navbar-actions a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-actions button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-greeting {
+            font-size: 14px;
+        }
+        .content {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .main-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .main-section h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .main-section p {
+            color: #666;
+            font-size: 16px;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="la">
-        
+    <div class="navbar">
         <h1>Головна сторінка</h1>
+        <div class="navbar-actions">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <span class="user-greeting">Привіт, {{ user.first_name|default:user.username }}!</span>
+                    <a href="{% url 'orders' %}">Замовлення</a>
+                    <form method="POST" action="{% url 'logout' %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Вихід</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}">Вхід</a>
+                <a href="{% url 'register' %}">Реєстрація</a>
+            {% endif %}
+        </div>
+    </div>
 
-     </div>
-    <a href="{%url 'orders' %}"> замовлення</a>
-
+    <div class="content">
+        <div class="main-section">
+            <h2>Ласкаво просимо!</h2>
+            <p>Це сучасна платформа для замовлення товарів.</p>
+            {% if not user.is_authenticated %}
+                <p>Щоб отримати доступ до замовлень, будь ласка, авторизуйтесь.</p>
+                <div>
+                    <a href="{% url 'login' %}" class="cta-button">Увійти</a>
+                    <a href="{% url 'register' %}" class="cta-button" style="margin-left: 15px;">Зареєструватись</a>
+                </div>
+            {% else %}
+                <p>Виберіть потрібні вам послуги нижче.</p>
+                <a href="{% url 'orders' %}" class="cta-button">Перейти до замовлень</a>
+            {% endif %}
+        </div>
+    </div>
 </body>
 
 </html>
