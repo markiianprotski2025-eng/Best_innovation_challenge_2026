@@ -24,15 +24,24 @@ def login_view(request):
 
 
 def register_view(request):
+    form = RegistrationForm(request.POST or None)
+
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-            
-            # Create user with email as username
+
+            # перевірка чи такий користувач вже існує
+            if User.objects.filter(username=email).exists():
+                context = {
+                    'form': form,
+                    'error': 'Користувач з таким email вже існує'
+                }
+                return render(request, 'registration/register.html', context)
+
+            # створення користувача
             user = User.objects.create_user(
                 username=email,
                 email=email,
@@ -40,21 +49,25 @@ def register_view(request):
                 first_name=first_name,
                 last_name=last_name
             )
-            
-            # Authenticate and login
-            user = authenticate(request, username=email, password=password)
-            login(request, user)
-            return redirect('orders')
-        else:
-            context = {'form': form, 'errors': form.errors}
-            return render(request, 'registration/register.html', context)
 
+            # автоматичний вхід після реєстрації
+            user = authenticate(
+                request,
+                username=email,
+                password=password
+            )
 
-def logout_view(request):
-    logout(request)
-    return redirect('index')
+            if user is not None:
+                login(request, user)
+                return redirect('orders')
 
+        context = {
+            'form': form,
+            'errors': form.errors
+        }
+        return render(request, 'registration/register.html', context)
 
+    return render(request, 'registration/register.html', {'form': form})
 def logout_view(request):
     logout(request)
     return redirect('index')
