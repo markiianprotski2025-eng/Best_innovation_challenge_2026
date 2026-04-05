@@ -31,6 +31,7 @@ header {
     position: sticky;
     top: 0;
     padding: 0.75rem 1.25rem 0;
+    z-index: 2000;
 }
 
 .desktop-header {
@@ -108,6 +109,7 @@ header {
     position: relative;
     align-items: center;
     justify-content: space-between;
+    z-index: 1000;
 }
 
 #open-nav-button {
@@ -121,14 +123,15 @@ header {
 
 .mobile-nav {
     display: none;
-    padding: 0;
-    position: absolute;
-    left: 0;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: #6262d0;
-    width: 100%;
-    height: 100vh;
     padding: 4rem 1.5rem;
+    z-index: 9999;
+    overflow-y: auto;
 }
 
 .mobile-nav ul {
@@ -190,6 +193,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    position: relative;
+    z-index: 1;
 }
 
 form {

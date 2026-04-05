@@ -25,19 +25,19 @@
                 </li>
             </ul>
             <div class="profile-link">
-                <a class="profile" href="{% url 'orders' %}"></a>
                 <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
             </div>
         </div>
         <div class="mobile-header">
             <button id="open-nav-button"></button>
-            <a class="profile" href="{% url 'orders' %}"></a>
+            <div class="profile-link">
+                <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
+            </div>
             <nav class="mobile-nav">
                 <button id="close-button"></button>
                 <ul>
-                    <li><a href="{% url 'orders' %}">Профіль</a></li>
                     <li><a href="{% url 'logout' %}">Вийти</a></li>
-                    <li><a href="">Про нас</a></li>
+                    <li><a href="{% url 'index' %}">Про нас</a></li>
                     <li><a href="{% url 'checkout' %}">Оформлення</a></li>
                     <li><a href="{% url 'orders' %}">Список замовлень</a></li>
                 </ul>
@@ -90,11 +90,15 @@
 
     <script>
         const mobileNav = document.getElementsByClassName("mobile-nav")[0]
+
         document.getElementById("open-nav-button").addEventListener("click", function () {
             mobileNav.style.display = "block"
+            document.body.style.overflow = "hidden"
         })
+
         document.getElementById("close-button").addEventListener("click", function () {
             mobileNav.style.display = "none"
+            document.body.style.overflow = "auto"
         })
 
         const skladSelect = document.getElementById("sklad-select")

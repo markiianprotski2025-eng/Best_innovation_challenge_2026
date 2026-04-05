@@ -22,7 +22,7 @@
                     {% endif %}
                 </li>
                 <li>
-                    <div class="home-selected"><a class="home" href=""></a></div>
+                    <div class="home-selected"><a class="home" href="/"></a></div>
                 </li>
                 <li>
                     {% if user.is_authenticated %}
@@ -34,25 +34,23 @@
             </ul>
             <div class="profile-link">
                 {% if user.is_authenticated %}
-                <a class="profile" href="{% url 'orders' %}"></a>
                 <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
                 {% else %}
-                <a class="profile" href="{% url 'login' %}"></a>
+                <a href="{% url 'login' %}" class="logout-button">Увійти</a>
                 {% endif %}
             </div>
         </div>
         <div class="mobile-header">
             <button id="open-nav-button"></button>
             {% if user.is_authenticated %}
-            <a class="profile" href="{% url 'orders' %}"></a>
+            <a href="{% url 'logout' %}" class="logout-button">Вийти</a>
             {% else %}
-            <a class="profile" href="{% url 'login' %}"></a>
+            <a href="{% url 'login' %}" class="logout-button">Увійти</a>
             {% endif %}
             <nav class="mobile-nav">
                 <button id="close-button"></button>
                 <ul>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'orders' %}">Профіль</a></li>
                     <li><a href="{% url 'logout' %}">Вийти</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Увійти</a></li>
@@ -71,65 +69,32 @@
     </header>
 
     <main>
-        <div class="main-header">
-            <h1>Ласкаво просимо!</h1>
-            <p>Швидка і зручна доставка товарів по всій Україні</p>
-            {% if not user.is_authenticated %}
-            <div class="auth-message">
-                <p>Для оформлення замовлень та перегляду статусу потрібно увійти в систему</p>
-                <a href="{% url 'login' %}" class="login-button">Увійти</a>
+        <h1>Про нас</h1>
+        <article>
+            <p>У сучасному світі логістика — це не просто доставка, а складна система, яка потребує швидких рішень та гнучкості. Ми допомагаємо транспортно-логістичним компаніям вирішити ключову проблему — неефективний розподіл ресурсів та неможливість швидко реагувати на зміну попиту. Завдяки нашому підходу ви отримуєте:</p>
+            <div class="features">
+                <img src="{% static 'main/img/truck-with-deal.png' %}" alt="Вантажівка з товарами">
+                <ul>
+                    <li>точний розподіл товарів і матеріалів</li>
+                    <li>швидку адаптацію до змін у реальному часі</li>
+                    <li>зниження витрат на паливо та логістику</li>
+                    <li>підвищення якості обслуговування клієнтів</li>
+                </ul>
             </div>
-            {% endif %}
-        </div>
-
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon design-icon"></div>
-                <h3>Оформлення замовлення</h3>
-                <p>Легко оберіть товари та оформіть замовлення за кілька кліків</p>
-                {% if user.is_authenticated %}
-                <a href="{% url 'checkout' %}" class="feature-link">Перейти →</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="feature-link">Увійти →</a>
-                {% endif %}
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon orders-icon"></div>
-                <h3>Мої замовлення</h3>
-                <p>Стежте за статусом ваших замовлень у реальному часі</p>
-                {% if user.is_authenticated %}
-                <a href="{% url 'orders' %}" class="feature-link">Переглянути →</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="feature-link">Увійти →</a>
-                {% endif %}
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon truck-icon"></div>
-                <h3>Швидка доставка</h3>
-                <p>Виберіть пріоритет доставки, який вам підходить</p>
-            </div>
-        </section>
-
-        <section class="hero-section">
-            <h2>Чому обирають нас?</h2>
-            <ul class="benefits">
-                <li>✓ Надійна доставка по всій країні</li>
-                <li>✓ Гнучкі варіанти пріоритету</li>
-                <li>✓ Прозорі ціни без прихованих комісій</li>
-                <li>✓ Професійна служба підтримки</li>
-            </ul>
-        </section>
+            <p>Ми перетворюємо хаотичну логістику на чітко налагоджену систему, яка працює на результат</p>
+        </article>
     </main>
 
     <script>
         const mobileNav = document.getElementsByClassName("mobile-nav")[0]
 
-        document.getElementById("open-nav-button").addEventListener("click", function () {
+        const openNavButton = document.getElementById("open-nav-button")
+        openNavButton.addEventListener("click", function() {
             mobileNav.style.display = "block"
         })
-        document.getElementById("close-button").addEventListener("click", function () {
+
+        const closeNavButton = document.getElementById("close-button")
+        closeNavButton.addEventListener("click", function() {
             mobileNav.style.display = "none"
         })
     </script>
